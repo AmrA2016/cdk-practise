@@ -1,4 +1,4 @@
-# Welcome to your CDK TypeScript project!
+# Welcome to my CDK TypeScript project!
 
 This is a project for TypeScript development with CDK.
 
