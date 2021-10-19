@@ -6,6 +6,8 @@ import { CustomVPCStack } from '../lib/resourcesStacks';
 
 const app = new cdk.App();
 
+cdk.Tag.add(app, "StackOwner", "Amr Atef")
+
 const DEV_ENV = { 
 	account: app.node.tryGetContext('envs')['dev']['account'],
 	region: app.node.tryGetContext('envs')['dev']['region']
