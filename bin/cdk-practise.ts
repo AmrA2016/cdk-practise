@@ -2,7 +2,7 @@
 import 'source-map-support/register';
 import * as cdk from '@aws-cdk/core';
 import { MyArtifactBucketStack } from '../lib/myFirstStack';
-import { CustomVPCStack } from '../lib/resourcesStacks';
+import { CustomVPCStack, CustomEC2Stack } from '../lib/resourcesStacks';
 
 const app = new cdk.App();
 
@@ -35,3 +35,6 @@ new CustomVPCStack(app, 'CustomVPCStack', {
 });
 
 
+new CustomEC2Stack(app, 'CustomEC2Stack', {
+  env: PROD_ENV
+});
