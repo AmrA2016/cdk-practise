@@ -1,5 +1,6 @@
 import * as cdk from '@aws-cdk/core';
-import * as ec2  from '@aws-cdk/aws-ec2';
+import * as ec2 from '@aws-cdk/aws-ec2';
+import * as iam from '@aws-cdk/aws-iam';
 
 export class CustomEC2Stack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -24,10 +25,10 @@ export class CustomEC2Stack extends cdk.Stack {
 	"Allow SSH connection from internet"
     )
 
-    const dateTime = new Date();
+    const timestamp = Date.now();
     // Create EC2 Instance
     const myInstance = new ec2.Instance(this, "SampleInstance",{
-    	instanceName: "SampleInstance-" + dateTime,
+    	instanceName: "SampleInstance_" + timestamp,
 	vpc: defaultVpc,
 	securityGroup: securityGroup,
 	instanceType: ec2.InstanceType.of(ec2.InstanceClass.T2, ec2.InstanceSize.MICRO),
@@ -35,6 +36,11 @@ export class CustomEC2Stack extends cdk.Stack {
 	    generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
 	})
     });
+
+    // Add SSM Role To Instance
+    myInstance.role.addManagedPolicy(
+    	iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonSSMManagedInstanceCore")
+    );
 
     // Get Instance Public IP
     new cdk.CfnOutput(this, 'SampleInstanceOutput', {
