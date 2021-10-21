@@ -3,6 +3,7 @@ import 'source-map-support/register';
 import * as cdk from '@aws-cdk/core';
 import { MyArtifactBucketStack } from '../lib/myFirstStack';
 import { CustomVPCStack, CustomEC2Stack, CustomEC2WithHttpdStack, CustomEC2WithEBSPiopsStack } from '../lib/resourcesStacks';
+import { HAWebServerVPCStack, HAWebServerStack } from '../lib/appStacks';
 
 const app = new cdk.App();
 
@@ -44,5 +45,12 @@ new CustomEC2WithHttpdStack(app, 'CustomApacheServerStack', {
 });
 
 new CustomEC2WithEBSPiopsStack(app, 'CustomEC2WithEBSPiopsStack', {
+  env: PROD_ENV
+});
+
+const haWebServerVPC = new HAWebServerVPCStack(app, 'HAWebServerVPCStack', {
+  env: PROD_ENV
+});
+new HAWebServerStack(app, 'HAWebServerStack', haWebServerVPC.vpc, {
   env: PROD_ENV
 });
